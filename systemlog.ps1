@@ -1,23 +1,27 @@
 #!/usr/bin/pwsh
 
-Clear-Host
+Clear-Host														# log fajlok kiirasa txt fajlba
 
-# Dátum és gépnév beállítása
+# Datum es gepnev beallitasa
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $hostname = $env:COMPUTERNAME
 $outputFile = "logs_${hostname}_${timestamp}.txt"
 
-"Windows eseménynaplók mentése: $outputFile" | Out-File -FilePath $outputFile -Encoding utf8
+"Windows esemenynaplok mentese: $outputFile" | Out-File -FilePath $outputFile -Encoding utf8
 
 $logs = @("Application", "System", "Security", "Setup")
 
 foreach ($log in $logs) {
     try {
         "`n===== $log Log =====`n" | Out-File -Append -FilePath $outputFile -Encoding utf8
-        Get-EventLog -LogName $log -Newest 100 | Out-File -Append -FilePath $outputFile -Encoding utf8
+        if ($log -eq "Setup") {
+            Get-WinEvent -LogName $log -MaxEvents 100 | Out-File -Append -FilePath $outputFile -Encoding utf8
+        } else {
+            Get-EventLog -LogName $log -Newest 100 | Out-File -Append -FilePath $outputFile -Encoding utf8
+        }
     } catch {
-        "`n[!] Hiba a(z) $log log olvasásakor: $_" | Out-File -Append -FilePath $outputFile -Encoding utf8
+        "`n[!] Hiba a(z) $log log olvasasakor: $_" | Out-File -Append -FilePath $outputFile -Encoding utf8
     }
 }
 
-Write-Output "`n✅ Logok mentve ide: $outputFile"
+Write-Host "`n Lokok mentve ide: $outputFile"
