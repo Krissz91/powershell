@@ -1,6 +1,6 @@
 #!/usr/bin/pwsh
 
-Clear-Host														# log fajlok kiirasa txt fajlba
+Clear-Host
 
 # Datum es gepnev beallitasa
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
