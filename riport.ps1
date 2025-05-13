@@ -14,7 +14,7 @@ Get-ComputerInfo | Out-File -Append $OutputFile
 @"
 === Uptime ===
 "@ | Out-File -Append $OutputFile
-(Get-Uptime).ToString() | Out-File -Append $OutputFile
+(Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime.ToString("yyyy-MM-dd HH:mm:ss") | Out-File -Append $OutputFile
 
 @"
 === CPU and Memory ===
