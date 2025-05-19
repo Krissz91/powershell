@@ -6,7 +6,7 @@ Clear-Host
 # Description: Interactive backup script in PowerShell
 
 Write-Host "Üdv, $env:USERNAME!"
-Write-Host "Ez egy interaktív mentési script PowerShell-ben."
+Write-Host "This is an interactive backup script in PowerShell."
 
 # Source Request
 $sourcePath = Read-Host "Please enter the full path to the file or folder you want to save."
