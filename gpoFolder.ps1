@@ -1,5 +1,7 @@
 #!/usr/bin/pwsh
 
+Clear-Host
+
 # 1. Request user data
 $gpoName = Read-Host "Enter the name of the GPO to be created. (e.g. HR_Folder)"
 $ouDn = Read-Host "Enter the OU Distinguished Name (e.g. OU=HR,DC=office,DC=local)"
