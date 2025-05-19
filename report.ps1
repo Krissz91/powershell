@@ -1,3 +1,5 @@
+#!/usr/bin/pwsh
+
 Clear-Host
 $Date = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"			
 $OutputFile = "System_Report_$Date.txt"

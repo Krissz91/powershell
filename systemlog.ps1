@@ -2,12 +2,12 @@
 
 Clear-Host
 
-# Datum es gepnev beallitasa
+# Setting date and machine name
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $hostname = $env:COMPUTERNAME
 $outputFile = "logs_${hostname}_${timestamp}.txt"
 
-"Windows esemenynaplok mentese: $outputFile" | Out-File -FilePath $outputFile -Encoding utf8
+"Save Windows event log: $outputFile" | Out-File -FilePath $outputFile -Encoding utf8
 
 $logs = @("Application", "System", "Security", "Setup")
 
@@ -20,8 +20,8 @@ foreach ($log in $logs) {
             Get-EventLog -LogName $log -Newest 100 | Out-File -Append -FilePath $outputFile -Encoding utf8
         }
     } catch {
-        "`n[!] Hiba a(z) $log log olvasasakor: $_" | Out-File -Append -FilePath $outputFile -Encoding utf8
+        "`nError reading $log log: $_" | Out-File -Append -FilePath $outputFile -Encoding utf8
     }
 }
 
-Write-Host "`n Lokok mentve ide: $outputFile"
+Write-Host "`nLogs saved here: $outputFile"
