@@ -1,37 +1,41 @@
 Clear-Host
 # Author: Krisztian Toth
-# Created: 05/06/2025
+# Created: 02/07/2025
 # Description: MSSQL Database Backup Script in PowerShell
 
 Write-Host "Greetings, $env:USERNAME!"
-Write-Host "This is an interactive MSSQL database backup script in PowerShell: "
+Write-Host "This is an interactive MSSQL database backup script in Powershell"
 
 # Request MSSQL Database Name
-$databaseName = Read-Host "Please enter the database name: "
+$databaseName = Read-Host "Please enter the database name"
 
 # Request server information
-$serverName = Read-Host "Enter the name of the MSSQL server (e.g. localhost or 'IP address'): "
+$serverName = Read-Host "Enter the name of the MSSQL server (e.g. localhost or 'IP address')"
 
 # Specifying a backup destination directory
-$destinationDir = Read-Host "Specify the destination directory for the save: "
-if (-not (Test-Path $destinationDir)) {
-    New-Item -ItemType Directory -Path $destinationDir | Out-Null
-}
+$destinationDir = Read-Host "Specify the destination directory for the save"
+
+if (Test-Path $destinationDir) {Write-Host "Destination directory is exist..." -ForegroundColor Yellow -BackgroundColor Black}
+else {Write-Host "Destination directory is not exist, but we are creating one..." -ForegroundColor Red -BackgroundColor Black
+        New-Item -ItemType Directory -Path $destinationDir | Out-Null}
 
 # Save file name and timestamp
 $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $backupFile = Join-Path $destinationDir "${databaseName}_backup_$timestamp.bak"
 
 # Running MSSQL Backup command
-$backupCommand = "BACKUP DATABASE [$databaseName] TO DISK = N'$backupFile' WITH NOFORMAT, NOINIT, NAME = N'$databaseName-Full Database Backup', SKIP, NOREWIND, NOUNLOAD, STATS = 10"
+$backupCommand = "BACKUP DATABASE [$databaseName]
+                  TO DISK = N'$backupFile'
+                  WITH NOFORMAT, NOINIT,
+                  NAME = N'$databaseName-Full Database Backup',
+                  SKIP, NOREWIND, NOUNLOAD,
+                  STATS = 10"
+
 Invoke-Sqlcmd -ServerInstance $serverName -Query $backupCommand
 
 # Backup verification
-if (Test-Path $backupFile) {
-    Write-Host "Saving successfully completed! File path: $backupFile" -ForegroundColor Green
-} else {
-    Write-Host "An error occurred during the save." -ForegroundColor Red
-}
+if (Test-Path $backupFile) {Write-Host "Saving successfully completed! File path: $backupFile" -ForegroundColor Green -BackgroundColor Black}
+else {Write-Host "An error occurred during the save." -ForegroundColor Red -BackgroundColor Black}
 
 # Stores the SQL command ($backupCommand) in a variable, which is later executed by the Invoke-Sqlcmd command.
 # The parts of the backup SQL command have the following meaning:
