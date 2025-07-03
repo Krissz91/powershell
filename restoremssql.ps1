@@ -16,9 +16,7 @@ else {Write-Host "Backup file not found at the specified path." -ForegroundColor
 # Overwrite?
 $overwrite = Read-Host "Do you want to overwrite the existing database if it exists? (Y/N)"
 $replaceOption = ""
-if ($overwrite -eq "Y" -or $overwrite -eq "y") {
-    $replaceOption = "REPLACE,"
-}
+if ($overwrite -eq "Y" -or $overwrite -eq "y") {$replaceOption = "REPLACE,"}
 
 # --- Step 1: Get logical file names ---
 $restoreFileList = Invoke-Sqlcmd -ServerInstance $serverName -Query "RESTORE FILELISTONLY FROM DISK = N'$backupFile'"
