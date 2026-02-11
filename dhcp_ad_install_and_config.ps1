@@ -3,7 +3,7 @@
 Clear-Host
 
 Write-Host "The installation and configuration of the DHCP server is starting..." -ForegroundColor Yellow -BackgroundColor Black
-Write-Host "(You will give dhcp/ad error message, but don't worry it will be working.)" -ForegroundColor Yellow -BackgroundColor Black
+Write-Host "(You will get dhcp/ad error message, but don't worry it will be working.)" -ForegroundColor Yellow -BackgroundColor Black
 
 # DHCP input parameters
 $Name = Read-Host "What name should we give to the DHCP scope? (e.g. First-DHCP)"
